@@ -1,8 +1,6 @@
 # 🧠 Aldrich.AI  
 ![Adventure.AI Landing](landing.png)
-*An interactive, voice-powered choose your own adventure powered by AI.*
 
----
 
 ## 🚀 Overview
 
