@@ -1,11 +1,12 @@
-# 🧠 Adventure.AI  
+# 🧠 Aldrich.AI  
+![Adventure.AI Landing](landing.png)
 *An interactive, voice-powered choose your own adventure powered by AI.*
 
 ---
 
 ## 🚀 Overview
 
-**Adventure.AI** is an experimental, story-driven web app where players embark on an evolving adventure — guided by voice narration.  
+**Aldrich.AI** is an experimental, story-driven web app where players embark on an evolving adventure — guided by voice narration.  
 Choose your genre, describe your hero, and shape your destiny as AI narrates your story in real time.
 
 This project blends **Next.js**, **AI storytelling by Gemini**, and **ElevenLabs voice synthesis** to create an immersive interactive fiction experience.
@@ -25,7 +26,7 @@ This project blends **Next.js**, **AI storytelling by Gemini**, and **ElevenLabs
 | Layer | Technology |
 |-------|-------------|
 | **Frontend** | [Next.js 14+](https://nextjs.org), React, TypeScript |
-| **Backend** | [.NET9]C# |
+| **Backend** | [.NET9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0), C# |
 | **Voice AI** | [ElevenLabs TTS API](https://elevenlabs.io) |
 | **Story Generation** | [Gemeni 2.5 Flash](https://gemini.google.com) |
 
