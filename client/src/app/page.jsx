@@ -46,11 +46,6 @@ export default function Home() {
             type: "required",
             message: "It's an interactive story, interactive. 😐",
           };
-        } else if (values.userInput.length < 10) {
-          errors.userInput = {
-            type: "minLength",
-            message: "You can do better than that! Tell me more 🥺",
-          };
         } else if (values.userInput.length > 500) {
           errors.userInput = {
             type: "maxLength",
@@ -114,17 +109,14 @@ export default function Home() {
       if (sequences.length === 2) {
         setLoadingApi(true);
         try {
-          const response = await fetch(
-            "/api/setup",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                StoryType: genre,
-                CharacterDescription: data.userInput,
-              }),
-            }
-          );
+          const response = await fetch("/api/setup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              StoryType: genre,
+              CharacterDescription: data.userInput,
+            }),
+          });
 
           if (!response.ok) {
             console.error("API error", await response.text());
@@ -140,16 +132,13 @@ export default function Home() {
       } else {
         setLoadingApi(true);
         try {
-          const response = await fetch(
-            "/api/write-prompt",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                Content: data.userInput,
-              }),
-            }
-          );
+          const response = await fetch("/api/write-prompt", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              Content: data.userInput,
+            }),
+          });
 
           if (!response.ok) {
             console.error("API error", await response.text());
@@ -198,7 +187,7 @@ export default function Home() {
               transition={{ duration: 1 }}
               className="text-6xl md:text-8xl font-bold tracking-tight select-none"
             >
-              Adventure.Ai
+              Aldrich.Ai
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -226,15 +215,17 @@ export default function Home() {
               transition={{ duration: 1 }}
               className="flex flex-col space-y-4"
             >
-              <span className="text-5xl font-bold">Adventure.Ai</span>
+              <span className="text-5xl font-bold">Aldrich.Ai</span>
               {loadingApi ? (
                 <TypeAnimation
                   sequence={[
-                    "Clearing my throat...",
-                    1000,
-                    "Thinking of witty dialogue...",
-                    1000,
-                    "Storyboading in my mind..."
+                    "Processing.",
+                    2000,
+                    "Processing..",
+                    2000,
+                    "Processing...",
+                    2000,
+                    "Processing..",
                   ]}
                   wrapper="p"
                   speed={70}

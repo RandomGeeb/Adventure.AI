@@ -1,0 +1,11 @@
+@Adventure.AI.API_HostAddress = http://localhost:5081
+
+GET {{Adventure.AI.API_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{Adventure.AI.API_HostAddress}}/todos/1
+Accept: application/json
+
+###

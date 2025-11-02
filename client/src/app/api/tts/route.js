@@ -11,7 +11,7 @@ const elevenlabs = new ElevenLabsClient({
 
 export async function POST(req) {
   try {
-    const { text, voiceId = '5u2Z9aIaLvv0djKeCkxO' } = await req.json();
+    const { text, voiceId = '1FoIeQBid5Fc9MqJk5KV' } = await req.json();
 
     if (!text) {
       return NextResponse.json({ error: 'Missing text input' }, { status: 400 });
