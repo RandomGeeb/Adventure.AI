@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${spaceMono.className}`}
       >
-        <main className="flex min-h-screen items-center justify-center bg-black text-white">
+        <main className="flex min-h-screen items-center justify-center bg-[#2b2d42] text-white">
           {children}
         </main>
       </body>
