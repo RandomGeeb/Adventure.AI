@@ -56,26 +56,6 @@ export default function Home() {
     },
   });
 
-  // Helper function to get session ID from cookie
-  function getSessionCookie() {
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
-      if (name === 'sessionId') {
-        return value;
-      }
-    }
-    return null;
-  }
-
-  // Helper function to set session ID in cookie
-  function setSessionCookie(sessionId) {
-    // Set cookie with 24 hour expiration
-    const expires = new Date();
-    expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
-    document.cookie = `sessionId=${sessionId}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
-  }
-
   async function playVoice(text) {
     setLoadingApi(true);
     try {
@@ -148,7 +128,6 @@ export default function Home() {
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: "include",
             body: JSON.stringify({
               StoryType: genre,
               CharacterDescription: data.userInput,
@@ -162,12 +141,7 @@ export default function Home() {
 
           const responseData = await response.json();
           
-          // Extract session ID from response and store in cookie
-          if (responseData.sessionId) {
-            setSessionCookie(responseData.sessionId);
-          }
-          
-          promptResponse = responseData.result;
+          promptResponse = responseData;
         } catch (error) {
           console.error("Error during story setup:", error);
           setLoadingApi(false);
@@ -181,7 +155,6 @@ export default function Home() {
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: "include", // This automatically sends cookies
             body: JSON.stringify({
               Content: data.userInput,
             }),
@@ -193,7 +166,7 @@ export default function Home() {
           }
 
           const responseData = await response.json();
-          promptResponse = responseData.result;
+          promptResponse = responseData;
         } catch (error) {
           console.error("Error during story setup:", error);
           setLoadingApi(false);
