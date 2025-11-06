@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { TypeAnimation } from "react-type-animation";
 import { Navigation, Eclipse } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
   const [started, setStarted] = useState(false);
@@ -16,7 +15,6 @@ export default function Home() {
   const [loadingApi, setLoadingApi] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
   const [reading, setReading] = useState(true);
-  const [sessionId, setSessionId] = useState(null);
 
   const [sequences, setSequences] = useState([
     {
@@ -104,7 +102,22 @@ export default function Home() {
         ...prev,
         { text: nextText, placeholder: "Describe your character..." },
       ]);
-      await playVoice(nextText);
+      const creationAudio = new Audio("/assets/character-creation.mp3");
+
+      creationAudio.onplay = () => {
+        setAnimationKey((prev) => prev + 1);
+        setReading(true);
+      };
+      creationAudio.onended = () => {
+        URL.revokeObjectURL("/assets/character-creation.mp3");
+        setReading(false);
+      };
+      creationAudio.onerror = () => {
+        console.error("Audio playback error");
+        setReading(false);
+      };
+
+      creationAudio.play();
     } else {
       let promptResponse;
       if (sequences.length === 2) {
@@ -112,9 +125,8 @@ export default function Home() {
         try {
           const response = await fetch("/api/setup", {
             method: "POST",
-            headers: { 
+            headers: {
               "Content-Type": "application/json",
-              "X-Session-Id": sessionId
             },
             body: JSON.stringify({
               StoryType: genre,
@@ -138,9 +150,8 @@ export default function Home() {
         try {
           const response = await fetch("/api/write-prompt", {
             method: "POST",
-            headers: { 
+            headers: {
               "Content-Type": "application/json",
-              "X-Session-Id": sessionId
             },
             body: JSON.stringify({
               Content: data.userInput,
@@ -162,19 +173,31 @@ export default function Home() {
       setLoadingApi(false);
       setSequences((prev) => [
         ...prev,
-        { text: promptResponse, placeholder: "Type your response..." },
+        { text: promptResponse.result, placeholder: "Type your response..." },
       ]);
-      await playVoice(promptResponse);
+      await playVoice(promptResponse.result);
     }
     form.reset();
   }
 
   async function onStart() {
     setStarted(true);
-    setSessionId(uuidv4());
-    const introText =
-      "Choose your next adventure...  \n 1. Fantasy 🧙‍♂️ \n 2. Cyberpunk 🤖 \n 3. Sci-Fi 🚀";
-    await playVoice(introText);
+    const introAudio = new Audio("/assets/intro.mp3");
+
+    introAudio.onplay = () => {
+      setAnimationKey((prev) => prev + 1);
+      setReading(true);
+    };
+    introAudio.onended = () => {
+      URL.revokeObjectURL("/assets/intro.mp3");
+      setReading(false);
+    };
+    introAudio.onerror = () => {
+      console.error("Audio playback error");
+      setReading(false);
+    };
+
+    introAudio.play();
   }
 
   return (

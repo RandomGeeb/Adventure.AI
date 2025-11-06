@@ -4,19 +4,11 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const sessionId = req.headers.get("x-session-id");
-
-    const response = await fetch(
-      "https://gemini-adventure-api.fly.dev/story/write-prompt",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Session-Id": sessionId,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await fetch("https://gemini-adventure-api.fly.dev/story/write-prompt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
 
     const data = await response.json();
 
