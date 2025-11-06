@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { TypeAnimation } from "react-type-animation";
 import { Navigation, Eclipse } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { set } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
   const [started, setStarted] = useState(false);
@@ -16,6 +16,7 @@ export default function Home() {
   const [loadingApi, setLoadingApi] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
   const [reading, setReading] = useState(true);
+  const [sessionId, setSessionId] = useState(null);
 
   const [sequences, setSequences] = useState([
     {
@@ -111,7 +112,10 @@ export default function Home() {
         try {
           const response = await fetch("/api/setup", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+              "Content-Type": "application/json",
+              "X-Session-Id": sessionId
+            },
             body: JSON.stringify({
               StoryType: genre,
               CharacterDescription: data.userInput,
@@ -134,7 +138,10 @@ export default function Home() {
         try {
           const response = await fetch("/api/write-prompt", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+              "Content-Type": "application/json",
+              "X-Session-Id": sessionId
+            },
             body: JSON.stringify({
               Content: data.userInput,
             }),
@@ -164,6 +171,7 @@ export default function Home() {
 
   async function onStart() {
     setStarted(true);
+    setSessionId(uuidv4());
     const introText =
       "Choose your next adventure...  \n 1. Fantasy 🧙‍♂️ \n 2. Cyberpunk 🤖 \n 3. Sci-Fi 🚀";
     await playVoice(introText);

@@ -4,11 +4,19 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const response = await fetch("https://adventure-ai-api.onrender.com/story/setup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    const sessionId = req.headers.get("x-session-id");
+
+    const response = await fetch(
+      "https://gemini-adventure-api.fly.dev/story/setup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Session-Id": sessionId,
+        },
+        body: JSON.stringify(body),
+      }
+    );
 
     const data = await response.json();
 

@@ -18,7 +18,7 @@ export async function POST(req) {
     }
 
     const audioStream = await elevenlabs.textToSpeech.stream(voiceId, {
-      modelId: 'eleven_v3',
+      modelId: 'eleven_flash_v2_5',
       text,
       outputFormat: 'mp3_44100_128',
       voiceSettings: {
